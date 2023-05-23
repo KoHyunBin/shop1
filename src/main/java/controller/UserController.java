@@ -98,8 +98,7 @@ public class UserController {
 	@PostMapping("mypage")
 	public ModelAndView mypage(User user,HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		user = (User)session.getAttribute("loginUser");
-		mav.addObject("user",user);
+		
 		return mav;
 	}
 }
