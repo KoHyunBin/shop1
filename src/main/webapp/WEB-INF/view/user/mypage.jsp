@@ -9,12 +9,12 @@
 <title>mypage</title>
 <script>
 $(function(){
-	$("#minfo").show()
-	$("#oinfo").hide()
-	$(".saleLine").each(function(){
-		$(this).hide()
+	$("#minfo").show() //id=minfo인 태그 내용 보여줌 => 회원정보
+	$("#oinfo").hide() //id=oinfo인 태그 내용 안보여줌 => 주문정보
+	$(".saleLine").each(function(){ //class="saleLine" 모든 태그 => 주문상품조회부분
+		$(this).hide()	//안보이도록함
 	})
-	$("#tab1").addClass("select")
+	$("#tab1").addClass("select")//select class 속성 추가
 })
 function disp_div(id,tab){
 	$(".info").each(function(){
@@ -26,7 +26,7 @@ function disp_div(id,tab){
 	$("#"+id).show()
 	$("#"+tab).addClass("select")
 }
-function list_disp(id){
+function list_disp(id){ //id=saleLine0,saleLine1....
 	$("#"+id).toggle()  //현재 보이는 경우 => 안보이도록
 						//현재 안보이는 경우 => 보이도록
 }
@@ -41,6 +41,9 @@ function list_disp(id){
 		text-decoration : none;
 		font-weight : bold;
 	}
+	.title{
+		text-decoration: none;
+	}
 </style>
 </head>
 <%--
@@ -53,11 +56,11 @@ function list_disp(id){
 <table>
 	<tr>
 		<td id="tab1" class="tab">
-			<a href="javascript:disp_div('minfo','tab1')">회원정보</a>
+			<a href="javascript:disp_div('minfo','tab1')" class="title">회원정보</a>
 		</td>
 		<c:if test="${param.userid != 'admin'}">
 			<td id="tab2" class="tab">
-				<a href="javascript:disp_div('oinfo','tab2')">주문정보</a>
+				<a href="javascript:disp_div('oinfo','tab2')" class="title">주문정보</a>
 			</td>
 		</c:if>
 	</tr>
@@ -90,7 +93,7 @@ function list_disp(id){
 						<td>주문수량</td>
 						<td>상품총액</td>
 					</tr>
-					<c:forEach items="${sale.itemlist}" var="saleItem">
+					<c:forEach items="${sale.itemList}" var="saleItem">
 						<tr>
 							<td class="title">
 								${saleItem.item.name}
@@ -138,7 +141,7 @@ function list_disp(id){
 	<c:if test="${loginUser.userid != 'admin'}">
 		<a href="delete?userid=${user.userid}">[회원탈퇴]</a>&nbsp;
 	</c:if>
-	<c:if test="${loginUser.userid == 'admin' }">
+	<c:if test="${loginUser.userid == 'admin'}">
 		<a href="../admin/list">[회원목록]</a>&nbsp;
 	</c:if>
 </div>

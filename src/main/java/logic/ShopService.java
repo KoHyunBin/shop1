@@ -106,4 +106,31 @@ public class ShopService {
 		}
 		return sale; //주문정보, 주문상품정보, 상품정보, 사용자정보
 	}
+
+	public List<Sale> salelist(String userid) {
+		List<Sale> list = saleDao.list(userid);//id 사용자가 주문 정보목록
+		for(Sale sa : list) {
+			List<SaleItem> saleitemlist = saleItemDao.list(sa.getSaleid());//한개의 주문에 해당하는 주문상품 목록
+			for(SaleItem si : saleitemlist) {
+				Item item = itemDao.getItem(si.getItemid()); //상품정보
+				si.setItem(item);
+			}
+			sa.setItemList(saleitemlist);
+		}
+		return list;
+	}
+
+	public void userUpdate(User user) {
+		userDao.update(user);
+	}
+
+	public void userDelete(String userid) {
+		userDao.delete(userid);
+	}
+
+	public void userPassword(String userid, String chgpass) {
+		userDao.update(userid,chgpass);
+	}
+	
+	
 }
