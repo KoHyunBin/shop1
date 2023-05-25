@@ -224,19 +224,23 @@ public class UserController {
 	 */
 	
 	@PostMapping("password")
-	public String loginCheck(String password, String chgpass, String chgpass2, HttpSession session) {
+	public String loginCheck(String password, String chgpass, HttpSession session) {
+		//비밀번호 검증
 		User loginUser = (User)session.getAttribute("loginUser");
+		//password : 파라미터
+		//loginUser.getPassword() : 로그인된 비밀번호
 		if(!loginUser.getPassword().equals(password)) {
 			throw new LoginException("현재 비밀번호가 틀렸습니다.", "password?userid="+loginUser.getUserid());
 		}
-		if(!chgpass.equals(chgpass2)) {
-			throw new LoginException("재입력한 비밀번호를 확인하세요","password?userid="+loginUser.getUserid());
-		}
+//		if(!chgpass.equals(chgpass2)) {
+//			throw new LoginException("재입력한 비밀번호를 확인하세요","password?userid="+loginUser.getUserid());
+//		}
 		try {
 			service.userPassword(loginUser.getUserid(),chgpass);
+			loginUser.setPassword(chgpass); //로그인 정보에 비밀번호 수정
 		} catch(Exception e) {
 			e.printStackTrace();
-			throw new LoginException("비밀번호 수정시 오류 발생","password?userid="+loginUser.getUserid());
+			throw new LoginException("비밀번호 수정시 db오류 발생","password?userid="+loginUser.getUserid());
 		}
 		return "redirect:mypage?userid="+loginUser.getUserid();
 	}
